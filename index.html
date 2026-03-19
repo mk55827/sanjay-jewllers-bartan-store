@@ -1,25 +1,100 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Passport Photo Maker</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Sanjay Jewellers & Bartan Bhandar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        .font-royal { font-family: 'Cinzel', serif; }
+        .font-serif { font-family: 'Playfair Display', serif; }
+        .bg-maroon { background-color: #4a0404; }
+        .text-gold { color: #d4af37; }
+        .border-gold { border-color: #d4af37; }
+        .split-btn:hover { letter-spacing: 3px; background: #d4af37; color: #4a0404; }
+    </style>
 </head>
-<body>
-    <div class="container no-print">
-        <h1>Passport Photo Generator (4x6 Sheet)</h1>
-        <input type="file" id="upload" accept="image/*">
-        <div class="controls">
-            <label>BG Color: </label>
-            <input type="color" id="bgColor" value="#ffffff">
-            <button onclick="window.print()">Print Karein</button>
+<body class="bg-[#1a1a1a] text-white overflow-x-hidden">
+    
+
+
+ <nav class="fixed top-0 w-full z-50 bg-maroon border-b border-gold/30">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+        <div class="font-royal text-gold text-xl tracking-widest uppercase">
+            Sanjay
+        </div>
+
+        <div class="hidden md:flex space-x-8 font-serif uppercase text-sm tracking-widest items-center">
+            <a href="home.html" class="hover:text-gold transition duration-300 text-white">Home</a>
+            <a href="#about" class="hover:text-gold transition duration-300 text-white">About</a>
+            <a href="#contact" class="hover:text-gold transition duration-300 text-white">Contact Us</a>
+            <a href="bill.html" class="bg-gold text-maroon px-4 py-1 font-bold rounded hover:bg-white transition duration-300 border border-gold">
+                Owner Bill
+            </a>
+        </div>
+
+        <div onclick="openMenu()" class="md:hidden text-gold font-bold cursor-pointer">
+            MENU
+        </div>
+    </div>
+</nav>
+
+<div id="fullMenu" class="fixed inset-0 bg-[#4a0404] z-[100] hidden flex-col items-center justify-center space-y-10 transition-all duration-300">
+    <button onclick="closeMenu()" class="absolute top-6 right-8 text-gold text-5xl font-light">&times;</button>
+    
+    <div class="text-center space-y-8">
+        <a href="home.html" onclick="closeMenu()" class="block font-royal text-gold text-3xl tracking-widest hover:scale-110 transition">HOME</a>
+        <a href="#about" onclick="closeMenu()" class="block font-royal text-gold text-3xl tracking-widest hover:scale-110 transition">ABOUT</a>
+        <a href="#contact" onclick="closeMenu()" class="block font-royal text-gold text-3xl tracking-widest hover:scale-110 transition">CONTACT US</a>
+        <div class="pt-6">
+            <a href="bill.html" onclick="closeMenu()" class="font-royal bg-gold text-maroon px-10 py-3 text-xl rounded-full font-bold shadow-lg">OWNER BILL</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openMenu() {
+        const menu = document.getElementById('fullMenu');
+        menu.classList.remove('hidden');
+        menu.classList.add('flex');
+        document.body.style.overflow = 'hidden'; // पीछे का पेज स्क्रॉल नहीं होगा
+    }
+
+    function closeMenu() {
+        const menu = document.getElementById('fullMenu');
+        menu.classList.add('hidden');
+        menu.classList.remove('flex');
+        document.body.style.overflow = 'auto'; // स्क्रॉल वापस शुरू
+    }
+</script>
+    <div class="relative h-screen flex flex-col md:flex-row overflow-hidden">
+        <div class="relative w-full md:w-1/2 h-1/2 md:h-full group cursor-pointer overflow-hidden border-r border-gold/30">
+            <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&q=80" class="absolute inset-0 w-full h-full object-cover transition duration-700 group-hover:scale-110 opacity-60">
+            <div class="relative z-10 flex flex-col items-center justify-center h-full bg-black/40">
+                <h2 class="font-royal text-4xl md:text-5xl text-gold mb-4" data-aos="fade-right">Jewellery</h2>
+                <a href="jewellery.html" class="split-btn border border-gold px-8 py-3 transition-all duration-500 font-bold uppercase tracking-widest">Explore Gold</a>
+            </div>
+        </div>
+
+        <div class="relative w-full md:w-1/2 h-1/2 md:h-full group cursor-pointer overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&q=80" class="absolute inset-0 w-full h-full object-cover transition duration-700 group-hover:scale-110 opacity-60">
+            <div class="relative z-10 flex flex-col items-center justify-center h-full bg-black/40">
+                <h2 class="font-royal text-4xl md:text-5xl text-gold mb-4" data-aos="fade-left">Bartan</h2>
+                <a href="bartan.html" class="split-btn border border-gold px-8 py-3 transition-all duration-500 font-bold uppercase tracking-widest">Explore Kitchenware</a>
+            </div>
+        </div>
+
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 text-center w-full pointer-events-none">
+            <div class="bg-maroon/90 border-2 border-gold p-6 md:p-10 rounded-full inline-block shadow-[0_0_50px_rgba(212,175,55,0.3)]" data-aos="zoom-in">
+                <h1 class="font-royal text-2xl md:text-4xl leading-tight">SANJAY<br><span class="text-gold">JEWELLERS</span></h1>
+                <p class="font-serif italic text-sm mt-2">Owner: Vivek Kumar</p>
+            </div>
         </div>
     </div>
 
-    <div id="print-sheet" class="sheet-4x6">
-        </div>
-
-    <script src="script.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>AOS.init({ duration: 1200 });</script>
 </body>
 </html>
