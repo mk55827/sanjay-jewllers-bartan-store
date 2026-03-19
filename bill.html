@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sanjay Jewellers - Digital Bill</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        .font-royal { font-family: 'Cinzel', serif; }
+        .bg-maroon { background-color: #4a0404; }
+        .text-gold { color: #d4af37; }
+        .border-gold { border-color: #d4af37; }
+        @media print { .no-print { display: none; } }
+        
+        /* Login screen styling */
+        #loginOverlay {
+            position: fixed;
+            inset: 0;
+            background: #1a1a1a;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body class="bg-stone-200 p-4 md:p-10">
+
+    <div id="loginOverlay">
+        <div class="bg-white p-8 rounded-lg shadow-2xl border-t-4 border-maroon w-full max-w-sm text-center">
+            <h2 class="font-royal text-2xl text-maroon mb-4">Owner Login</h2>
+            <input type="password" id="passInput" placeholder="Enter Password" class="w-full border p-3 rounded mb-4 outline-none focus:border-gold">
+            <button onclick="checkLogin()" class="bg-maroon text-gold font-bold w-full py-3 rounded hover:bg-black transition">Open Bill System</button>
+            <p id="errorMsg" class="text-red-500 text-sm mt-3 hidden">Galat Password!</p>
+        </div>
+    </div>
+
+    <div id="billContent" class="hidden max-w-3xl mx-auto bg-white shadow-2xl border-t-8 border-gold overflow-hidden rounded-lg">
+        <div class="bg-maroon p-8 text-center text-white relative">
+            <button onclick="location.reload()" class="no-print absolute left-4 top-4 text-xs text-gold border border-gold/30 px-2 py-1">Logout</button>
+            <h1 class="font-royal text-3xl md:text-4xl text-gold">संजय ज्वैलर्स और बर्तन भंडार</h1>
+            <p class="text-sm tracking-[3px] mt-1">Sone, Chandi aur Bartan ke Vishwasniya Vikreta</p>
+            <div class="mt-4 text-xs opacity-80">
+                <p>Owner: Vivek Kumar | 📞 8603750848</p>
+                <p>Nepal Road Basbita, Bihar</p>
+            </div>
+        </div>
+
+        <div class="p-6 md:p-10">
+            <div class="grid md:grid-cols-2 gap-4 mb-8">
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase">Customer Name</label>
+                    <input type="text" id="custName" placeholder="Grahak ka Naam" class="w-full border-b-2 border-gray-200 focus:border-gold outline-none py-2 text-lg">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase">Date</label>
+                    <input type="date" id="billDate" class="w-full border-b-2 border-gray-200 py-2 outline-none">
+                </div>
+            </div>
+
+            <table class="w-full mb-8">
+                <thead>
+                    <tr class="border-b-2 border-maroon text-left">
+                        <th class="py-2 font-royal text-maroon">Item / Description</th>
+                        <th class="py-2 font-royal text-maroon text-right">Amount (₹)</th>
+                    </tr>
+                </thead>
+                <tbody id="itemRows">
+                    <tr class="border-b border-gray-100">
+                        <td class="py-4"><input type="text" placeholder="Item ka naam" class="itemName w-full outline-none"></td>
+                        <td class="py-4"><input type="number" placeholder="0" class="itemAmount w-full text-right outline-none font-bold" oninput="calculateTotal()"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <button onclick="addRow()" class="no-print text-sm bg-stone-100 px-4 py-1 rounded border border-gray-300 hover:bg-stone-200">+ Add Item</button>
+
+            <div class="mt-10 border-t-2 border-gold pt-4">
+                <div class="flex justify-between items-center text-2xl font-bold text-maroon">
+                    <span class="font-royal">TOTAL AMOUNT:</span>
+                    <span>₹ <span id="totalDisplay">0</span></span>
+                </div>
+            </div>
+
+            <div class="mt-10 text-center italic text-gray-400 text-sm">
+                <p>"Shubh Vivah aur Tyohar ke liye hamare yahan sampark karein"</p>
+                <p class="mt-2 font-bold text-gray-600">— Vivek Kumar</p>
+            </div>
+        </div>
+
+        <div class="no-print bg-gray-100 p-6 flex flex-col md:flex-row gap-4 justify-center">
+            <button onclick="window.print()" class="bg-gray-800 text-white px-8 py-3 rounded font-bold hover:bg-black transition">Print Bill</button>
+            <button onclick="shareWhatsApp()" class="bg-green-600 text-white px-8 py-3 rounded font-bold hover:bg-green-700 transition flex items-center justify-center">
+                Share on WhatsApp 📲
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Password Protection
+        function checkLogin() {
+            const pass = document.getElementById('passInput').value;
+            if(pass === "vivek@123") {
+                document.getElementById('loginOverlay').style.display = 'none';
+                document.getElementById('billContent').classList.remove('hidden');
+            } else {
+                document.getElementById('errorMsg').classList.remove('hidden');
+            }
+        }
+
+        // Set today's date
+        document.getElementById('billDate').valueAsDate = new Date();
+
+        function addRow() {
+            const row = `<tr class="border-b border-gray-100">
+                <td class="py-4"><input type="text" placeholder="Item ka naam" class="itemName w-full outline-none"></td>
+                <td class="py-4"><input type="number" placeholder="0" class="itemAmount w-full text-right outline-none font-bold" oninput="calculateTotal()"></td>
+            </tr>`;
+            document.getElementById('itemRows').insertAdjacentHTML('beforeend', row);
+        }
+
+        function calculateTotal() {
+            let amounts = document.getElementsByClassName('itemAmount');
+            let total = 0;
+            for(let amt of amounts) {
+                total += Number(amt.value) || 0;
+            }
+            document.getElementById('totalDisplay').innerText = total;
+        }
+
+        function shareWhatsApp() {
+            const name = document.getElementById('custName').value || "Customer";
+            const total = document.getElementById('totalDisplay').innerText;
+            const date = document.getElementById('billDate').value;
+            
+            let itemsText = "";
+            const items = document.getElementsByClassName('itemName');
+            const amounts = document.getElementsByClassName('itemAmount');
+            
+            for(let i=0; i<items.length; i++) {
+                if(items[i].value) {
+                    itemsText += `\n- ${items[i].value}: ₹${amounts[i].value}`;
+                }
+            }
+
+            const message = `*SANJAY JEWELLERS & BARTAN BHANDAR*%0A---------------------------%0A*BILL DETAILS*%0A*Date:* ${date}%0A*Customer:* ${name}%0A---------------------------%0A*Items:*${itemsText}%0A---------------------------%0A*TOTAL AMOUNT: ₹${total}*%0A---------------------------%0AThank you for shopping!%0A_Owner: Vivek Kumar (8603750848)_`;
+            
+            window.open(`https://wa.me/918603750848?text=${message}`, '_blank');
+        }
+    </script>
+</body>
+</html>
