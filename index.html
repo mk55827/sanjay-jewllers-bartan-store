@@ -1,0 +1,25 @@
+!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passport Photo Maker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container no-print">
+        <h1>Passport Photo Generator (4x6 Sheet)</h1>
+        <input type="file" id="upload" accept="image/*">
+        <div class="controls">
+            <label>BG Color: </label>
+            <input type="color" id="bgColor" value="#ffffff">
+            <button onclick="window.print()">Print Karein</button>
+        </div>
+    </div>
+
+    <div id="print-sheet" class="sheet-4x6">
+        </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
